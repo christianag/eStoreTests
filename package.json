@@ -13,6 +13,7 @@
     "@badeball/cypress-cucumber-preprocessor": "^15.1.2",
     "@cypress/webpack-preprocessor": "^5.16.1",
     "cypress": "^12.3.0",
-    "cypress-fill-command": "^1.0.2"
+    "cypress-fill-command": "^1.0.2",
+    "cypress-if": "^1.10.3"
   }
 }
