@@ -22,7 +22,7 @@ eStoreTests
 │    │       └── item.feature   
 │    ├── fixtures 	
 │    └── support  
-│ 	     ├── page_objects
+│        ├── page_objects
 │        │   ├── cart_page.js  
 │        │   ├── home_page.js 
 │        │   └── item_page.js 
