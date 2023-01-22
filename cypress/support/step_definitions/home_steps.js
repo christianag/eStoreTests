@@ -13,20 +13,41 @@ Given("I log in with valid credentials: {string} and {string}", (username, passw
     homePage.confirmSuccessfulLogin()
 })
 
+Given("I open the registration form", () => {
+    homePage.clickCreateAccount()
+})
+
+When("I fill out the registration form", () => {
+    homePage.enterDummyData()
+    homePage.generateRandomEmailAndPassword()
+    homePage.submitNewRegistration()
+})
+
+When("I pick a random item of the type {string}", (item) => {
+    homePage.searchFor(item)
+    homePage.itemFound()
+    homePage.clickOnRandomItem()
+})
+
 When("I search for this item: {string}", (item) => {
     homePage.searchFor(item)
 })
 
-When("Various results should load on the page", () => {
-    homePage.itemFound()
-})
-
-When("I click on a random result", () => {
-    homePage.clickOnRandomItem()
-})
-
 When("I click on {string} section", (sectionName) => {
     homePage.clickOnItemSection(sectionName)
+})
+
+When("I confirm the header content", () => {
+    homePage.welcomeMessageContentCheck()
+    homePage.signInCheck()
+    homePage.createAccountCheck()
+    homePage.searchBarCheck()
+    homePage.cartIsEmpty()
+})
+
+Then("I make sure all footer links are available", () => {
+    homePage.footerContentCheck()
+    homePage.subsrcibeFieldsCheck()
 })
 
 Then("I should get no results", () => {
@@ -35,4 +56,9 @@ Then("I should get no results", () => {
 
 Then("Confirm you are redirected to section {string}", (sectionName) => {
     homePage.sectionChecks(sectionName)
+})
+
+Then("Confirm the registration was successfull & log out", () => {
+    homePage.confirmSuccessfullRegistrations()
+    homePage.clickSignOut()
 })

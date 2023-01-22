@@ -17,29 +17,58 @@ export default class ItemPage {
     }
 
     addToCart() {
-        // if(expect('.size').to.be.visible) {
-        //     this.selectItemSize()
-        // } else {
-        //     cy.log('THIS ITEM HAS NO SIZE OPTIONS')
-        // }
-        // if(expect('.swatch-attribute.color').to.be.visible) {
-        //     this.selectItemColor()
-        // } else {
-        //     cy.log('THIS ITEM HAS NO COLOR OPTIONS')
-        // }
-        cy.get('.stock > span').should('contain', 'In stock')
         cy.get('#product-addtocart-button').click()
     }
 
     messageOfSuccess() {
         cy.get('.message-success').should('be.visible').contains('You added').contains('to your shopping cart')
-        cy.get('.counter-number').should('have.text', '1')
+    }
+
+    amountOfItemsInCart(number) {
+        cy.get('.counter-number').should('have.text', number)
     }
 
     checkCart() {
         cy.get('.message-success > div > a').click()
         cy.url().should('contain', '/checkout/cart/')
         cy.title().should('contain', 'Shopping Cart')
+    }
+
+    requiredFieldErrorMessage() {
+        cy.get('div.mage-error').should('be.visible').and('have.length', 2).contains('This is a required field.')
+    }
+
+    clickOnCartIcon() {
+        cy.get('.showcart').click()
+    }
+
+    clearCartViaWidget() {
+        cy.get('.product > .secondary > .action').click()
+        cy.on('window:alert',(alert)=>{
+            expect(alert).to.contains('Are you sure you would like to remove this item from the shopping cart?')
+         })
+         cy.get('.action-primary').click()
+         cy.get('.subtitle').should('contain', 'You have no items in your shopping cart.')
+    }
+
+    emptyCartOfLoggedInUser() {
+        cy.get('.showcart').click()
+        cy.get('.subtitle').then(($content) => {
+            if(($content).text() != 'You have no items in your shopping cart.') {
+                cy.get('#mini-cart > li > div > div > div.product.actions > div.secondary > a').click()
+                cy.on('window:alert',(alert)=>{
+                    expect(alert).to.contains('Are you sure you would like to remove this item from the shopping cart?')
+                 })
+                 cy.get('.action-primary').click()
+                cy.log('CART HAS BEEN CLEARED')
+            } else {
+                cy.log('CART IS EMPTY')
+            }
+        })
+    }
+
+    increaseQnatity(quantity) {
+        cy.get('input#qty').clear().type(quantity)
     }
 
 }
